@@ -7,7 +7,6 @@ Single-page operational dashboard for compliance analysts:
 - Alert queue with filtering
 - Per-user risk drill-down
 """
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -15,6 +14,7 @@ import pickle
 import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
+import os
 
 # -------------- Page config --------------
 st.set_page_config(
@@ -23,6 +23,22 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+# -------------- Resolve paths --------------
+# Works both locally (from dashboard/) and on Streamlit Cloud (from root)
+def find_root():
+    candidates = [
+        Path(__file__).parent.parent,  # local: dashboard/ -> root
+        Path('.'),                      # Streamlit Cloud: runs from root
+        Path(__file__).parent,          # fallback
+    ]
+    for c in candidates:
+        if (c / 'data' / 'transactions_featured.csv').exists():
+            return c
+    st.error("Data files not found. Please run the pipeline first.")
+    st.stop()
+
+ROOT = find_root()
 
 # -------------- Load assets --------------
 FEATURES = [
@@ -48,7 +64,6 @@ def load_model():
 df = load_data()
 model, default_threshold = load_model()
 
-# Score all transactions (cached)
 @st.cache_data
 def score_transactions(df):
     X = df[FEATURES].fillna(0)
