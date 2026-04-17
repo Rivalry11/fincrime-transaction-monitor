@@ -1,4 +1,5 @@
 # 🛡️ FinCrime Transaction Monitor
+🔴 **[Live Demo](https://fincrime-monitor.streamlit.app)**
 
 End-to-end fraud detection system simulating a transaction monitoring pipeline used by neobanks and fintechs for AML compliance. Built as a portfolio project to demonstrate applied machine learning, feature engineering aligned with real fraud typologies, and an operational dashboard for compliance analysts.
 
