@@ -34,14 +34,14 @@ FEATURES = [
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('data/transactions_featured.csv', parse_dates=['timestamp'])
+    df = pd.read_csv(ROOT / 'data' / 'transactions_featured.csv', parse_dates=['timestamp'])
     return df
 
 @st.cache_resource
 def load_model():
-    with open('models/xgb_model.pkl', 'rb') as f:
+    with open(ROOT / 'models' / 'xgb_model.pkl', 'rb') as f:
         model = pickle.load(f)
-    with open('models/threshold.pkl', 'rb') as f:
+    with open(ROOT / 'models' / 'threshold.pkl', 'rb') as f:
         threshold = pickle.load(f)
     return model, threshold
 
